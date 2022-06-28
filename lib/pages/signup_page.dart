@@ -93,7 +93,7 @@ class _SignupPageState extends State<SignupPage> {
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => print('Signup Button Pressed'),
+        onPressed: () => print(_image),
         // padding: EdgeInsets.all(15.0),
         // shape: RoundedRectangleBorder(
         //   borderRadius: BorderRadius.circular(30.0),
@@ -162,28 +162,36 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ),
                       GestureDetector(
-                        // onTap: () async {
-                        //   final pickedFile = await _picker.pickImage(
-                        //     source: ImageSource.gallery,
-                        //   );
-                        //   setState(() {
-                        //     _image = File(pickedFile!.path);
-                        //   });
-                        // },
+                        onTap: () async {
+                          final pickedFile = await _picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          setState(() {
+                            _image = File(pickedFile!.path);
+                          });
+                        },
                         child: Container(
                           width: 100,
                           height: 100,
                           margin: const EdgeInsets.only(top: 20),
                           decoration: BoxDecoration(color: Colors.blue[200]),
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.blue[200]),
-                            width: 200,
-                            height: 200,
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.grey[800],
-                            ),
-                          ),
+                          child: _image != null
+                              ? Image.file(
+                                  _image,
+                                  width: 200.0,
+                                  height: 200.0,
+                                  fit: BoxFit.fitHeight,
+                                )
+                              : Container(
+                                  decoration:
+                                      BoxDecoration(color: Colors.blue[200]),
+                                  width: 200,
+                                  height: 200,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
                         ),
                       ),
                       const Padding(
