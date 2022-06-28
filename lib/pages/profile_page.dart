@@ -22,40 +22,50 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final _picker = ImagePicker();
   // bool _rememberMe = false;
-  final username = TextEditingController();
+  var username = TextEditingController();
+
+  void initState() {
+    super.initState();
+    // add post frame callback to update the image
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      username.text = context.read<AuthProviders>().user?.username ?? "";
+    });
+  }
 
   final password = TextEditingController();
 
   Widget _buildEmailTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            controller: username,
-            keyboardType: TextInputType.emailAddress,
-            style: const TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.only(top: 14.0),
-              prefixIcon: const Icon(
-                Icons.person,
+    return Consumer<AuthProviders>(builder: (context, auth, child) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 10.0),
+          Container(
+            alignment: Alignment.centerLeft,
+            decoration: kBoxDecorationStyle,
+            height: 60.0,
+            child: TextField(
+              controller: username,
+              keyboardType: TextInputType.emailAddress,
+              style: const TextStyle(
                 color: Colors.white,
+                fontFamily: 'OpenSans',
               ),
-              hintText: 'Username',
-              hintStyle: kHintTextStyle,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.only(top: 14.0),
+                prefixIcon: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                hintText: 'Username',
+                hintStyle: kHintTextStyle,
+              ),
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget _buildPasswordTF() {
