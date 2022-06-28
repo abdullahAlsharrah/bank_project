@@ -2,15 +2,24 @@ import 'package:bank_project/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../models/user.dart';
+import '../providers/auth_providers.dart';
+
+class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   // @override
-
-  // bool _rememberMe = false;
-
   final username = TextEditingController();
+
   final password = TextEditingController();
+
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +89,15 @@ class LoginScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () => print(username.text),
+        onPressed: () {
+          context.read<AuthProviders>().signUp(User(
+                username: username.text,
+                password: password.text,
+              ));
+          Navigator.popUntil(context, (route) {
+            return route.isFirst;
+          });
+        },
         // padding: EdgeInsets.all(15.0),
         // shape: RoundedRectangleBorder(
         //   borderRadius: BorderRadius.circular(30.0),
