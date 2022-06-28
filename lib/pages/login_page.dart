@@ -85,37 +85,40 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildLoginBtn() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          context.read<AuthProviders>().signUp(User(
-                username: username.text,
-                password: password.text,
-              ));
-          Navigator.popUntil(context, (route) {
-            return route.isFirst;
-          });
-        },
-        // padding: EdgeInsets.all(15.0),
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(30.0),
-        // ),
-        style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(), primary: Colors.white),
-        child: const Text(
-          'LOGIN',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+    return Consumer<AuthProviders>(builder: (context, auth, child) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 25.0),
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () async {
+            await context.read<AuthProviders>().signIn(User(
+                  username: username.text,
+                  password: password.text,
+                ));
+
+            if (auth.isAuth) {
+              context.go("/");
+            }
+          },
+          // padding: EdgeInsets.all(15.0),
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(30.0),
+          // ),
+          style: ElevatedButton.styleFrom(
+              shape: const StadiumBorder(), primary: Colors.white),
+          child: const Text(
+            'LOGIN',
+            style: TextStyle(
+              color: Color(0xFF527DAA),
+              letterSpacing: 1.5,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'OpenSans',
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override

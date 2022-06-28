@@ -10,14 +10,11 @@ class AuthServices {
 
   Future<String> signUp(User user) async {
     Response res = await Client.dio.post("/signup/", data: user.toJson());
-    print(res.data["token"]);
     return res.data["token"];
   }
 
   Future<String> signIn(User user) async {
-    Response res = await Client.dio.post("/signin/", data: user.toJson());
-    print(res.data["token"]);
-    var z = Jwt.parseJwt(res.data["token"]);
+    Response res = await Client.dio.post("/signin", data: user.toJson());
 
     return res.data["token"];
   }
