@@ -4,7 +4,6 @@ import 'package:bank_project/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../services/auth_services.dart';
 
 class AuthProviders extends ChangeNotifier {
@@ -16,10 +15,14 @@ class AuthProviders extends ChangeNotifier {
     notifyListeners();
   }
 
-  void signIn(User user) async {
-    token = await AuthServices().signIn(user);
-    setToken(token);
-    notifyListeners();
+  Future<void> signIn(User user) async {
+    try {
+      token = await AuthServices().signIn(user);
+      setToken(token);
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void signOut() {
@@ -30,6 +33,8 @@ class AuthProviders extends ChangeNotifier {
   void setToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("token", token);
+    var json = Jwt.parseJwt(token);
+    user = User.fromJson2(json);
     notifyListeners();
   }
 
@@ -43,7 +48,7 @@ class AuthProviders extends ChangeNotifier {
     if (token.isNotEmpty && Jwt.getExpiryDate(token)!.isAfter(DateTime.now())) {
       var json = Jwt.parseJwt(token);
       user = User.fromJson2(json);
-      print(user);
+      print(user?.username);
       return true;
     }
     logout();

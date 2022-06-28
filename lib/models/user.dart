@@ -6,9 +6,9 @@ part "user.g.dart";
 class User {
   int? id;
   String username;
-  String password;
+  String? password;
 
-  User({this.id, required this.username, required this.password});
+  User({this.id, required this.username, this.password});
 
   // factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   factory User.fromJson2(Map<String, dynamic> json) => _$UserFromJson(json);
