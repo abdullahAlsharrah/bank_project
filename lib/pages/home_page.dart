@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
     final GlobalKey<ScaffoldState> _sKey = GlobalKey();
     return Scaffold(
       key: _sKey,
-      drawer: Drawer(child: DrawerMenu()),
+      drawer: const Drawer(child: DrawerMenu()),
       body: Padding(
         padding: const EdgeInsets.only(top: 12.0, left: 40, right: 40),
         child: SafeArea(

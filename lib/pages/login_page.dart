@@ -75,47 +75,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  // Widget _buildForgotPasswordBtn() {
-  //   return Container(
-  //     alignment: Alignment.centerRight,
-  //     child: TextButton(
-  //       onPressed: () => print('Forgot Password Button Pressed'),
-  //       // padding: EdgeInsets.only(right: 0.0),
-  //       child: Text(
-  //         'Forgot Password?',
-  //         style: kLabelStyle,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildRememberMeCheckbox() {
-  //   return Container(
-  //     height: 20.0,
-  //     child: Row(
-  //       children: [
-  //         Theme(
-  //           data: ThemeData(unselectedWidgetColor: Colors.white),
-  //           child: Checkbox(
-  //             value: _rememberMe,
-  //             checkColor: Colors.green,
-  //             activeColor: Colors.white,
-  //             onChanged: (value) {
-  //               setState(() {
-  //                 _rememberMe = value;
-  //               });
-  //             },
-  //           ),
-  //         ),
-  //         Text(
-  //           'Remember me',
-  //           style: kLabelStyle,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _buildLoginBtn() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25.0),
@@ -141,53 +100,6 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildSignInWithText() {
-  //   return Column(
-  //     children: [
-  //       const Text(
-  //         '- OR -',
-  //         style: TextStyle(
-  //           color: Colors.white,
-  //           fontWeight: FontWeight.w400,
-  //         ),
-  //       ),
-  //       const SizedBox(height: 20.0),
-  //       Text(
-  //         'Sign in with',
-  //         style: kLabelStyle,
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // Widget _buildSignupBtn() {
-  //   return GestureDetector(
-  //     onTap: () => context.push("/signup"),
-  //     child: RichText(
-  //       text: const TextSpan(
-  //         children: [
-  //           TextSpan(
-  //             text: 'Don\'t have an Account? ',
-  //             style: TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 18.0,
-  //               fontWeight: FontWeight.w400,
-  //             ),
-  //           ),
-  //           TextSpan(
-  //             text: 'Sign Up',
-  //             style: TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 18.0,
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
