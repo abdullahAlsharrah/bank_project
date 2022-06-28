@@ -15,7 +15,10 @@ class DrawerMenu extends StatelessWidget {
           },
         ),
         ListTile(
-          title: Text("Profile"),
+          title: Text("Edit Profile"),
+          onTap: () {
+            context.push("/profile");
+          },
         ),
         Divider(),
         ListTile(
