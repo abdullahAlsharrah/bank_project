@@ -1,5 +1,6 @@
 import 'package:bank_project/pages/home_page.dart';
 import 'package:bank_project/pages/login_page.dart';
+import 'package:bank_project/pages/profile_page.dart';
 import 'package:bank_project/pages/signup_page.dart';
 import 'package:bank_project/providers/auth_providers.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ final _router = GoRouter(routes: [
   GoRoute(path: "/", builder: (context, state) => const HomePage()),
   GoRoute(path: "/signin", builder: (context, state) => LoginScreen()),
   GoRoute(path: "/signup", builder: (context, state) => const SignupPage()),
+  GoRoute(path: "/profile", builder: (context, state) => const ProfilePage()),
 ]);
 
 class MyApp extends StatelessWidget {
