@@ -27,6 +27,20 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   });
                 },
                 child: const Text("Withdraw")),
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    filter = "transfer";
+                  });
+                },
+                child: const Text("Rransfer")),
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    filter = "deposit";
+                  });
+                },
+                child: const Text("Deposit")),
             RecentTransactions(list: "all", filter: filter),
           ],
         ),
