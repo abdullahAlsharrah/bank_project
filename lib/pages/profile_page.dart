@@ -15,7 +15,7 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-var _image;
+File? _image;
 
 class _ProfilePageState extends State<ProfilePage> {
   // @override
@@ -107,9 +107,10 @@ class _ProfilePageState extends State<ProfilePage> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          context
-              .read<AuthProviders>()
-              .signUp(User(username: username.text, password: password.text));
+          context.read<AuthProviders>().update(User(
+              username: username.text,
+              password: password.text,
+              image: _image?.path));
           Navigator.popUntil(context, (route) {
             return route.isFirst;
           });
@@ -137,110 +138,119 @@ class _ProfilePageState extends State<ProfilePage> {
   // Widget _buildSignInWithText() {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: [
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
+    return Consumer<AuthProviders>(builder: (context, auth, child) {
+      return Scaffold(
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Stack(
+              children: [
+                Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF73AEF5),
+                        Color(0xFF61A4F1),
+                        Color(0xFF478DE0),
+                        Color(0xFF398AE5),
+                      ],
+                      stops: [0.1, 0.4, 0.7, 0.9],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Edit Your Profile',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
+                SizedBox(
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40.0,
+                      vertical: 120.0,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Edit Your Profile',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'OpenSans',
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          final pickedFile = await _picker.pickImage(
-                            source: ImageSource.gallery,
-                          );
-                          setState(() {
-                            _image = File(pickedFile!.path);
-                          });
-                        },
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          margin: const EdgeInsets.only(top: 20),
-                          decoration: BoxDecoration(color: Colors.blue[200]),
-                          child: _image != null
-                              ? Image.file(
-                                  _image,
-                                  width: 200.0,
-                                  height: 200.0,
-                                  fit: BoxFit.fitHeight,
-                                )
-                              : Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.blue[200]),
-                                  width: 200,
-                                  height: 200,
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.grey[800],
-                                  ),
-                                ),
+                        GestureDetector(
+                          onTap: () async {
+                            final pickedFile = await _picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            setState(() {
+                              _image = File(pickedFile!.path);
+                            });
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            margin: const EdgeInsets.only(top: 20),
+                            decoration: BoxDecoration(color: Colors.blue[200]),
+                            child: auth.user?.image != null && _image == null
+                                ? Image.network(
+                                    auth.user!.image!,
+                                    width: 200.0,
+                                    height: 200.0,
+                                    fit: BoxFit.fitHeight,
+                                  )
+                                : _image != null
+                                    ? Image.file(
+                                        _image!,
+                                        width: 200.0,
+                                        height: 200.0,
+                                        fit: BoxFit.fitHeight,
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue[200]),
+                                        width: 200,
+                                        height: 200,
+                                        child: Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
+                          ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("Please upload a profile picture",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'OpenSans',
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      const SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      _buildPasswordTF(),
-                      // _buildForgotPasswordBtn(),
-                      // _buildRememberMeCheckbox(),
-                      _buildSignupBtn(),
-                      // _buildSignInWithText(),
-                    ],
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text("Please upload a profile picture",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        const SizedBox(height: 30.0),
+                        _buildEmailTF(),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        _buildPasswordTF(),
+                        // _buildForgotPasswordBtn(),
+                        // _buildRememberMeCheckbox(),
+                        _buildSignupBtn(),
+                        // _buildSignInWithText(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

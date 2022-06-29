@@ -29,7 +29,8 @@ class _RecentTransactionsState extends State<RecentTransactions> {
               return ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: list().length,
+                  itemCount:
+                      widget.list != "all" ? list().length + 1 : list().length,
                   itemBuilder: ((context, index) => index == 0 &&
                           widget.list != "all"
                       ? Padding(
@@ -67,14 +68,14 @@ class _RecentTransactionsState extends State<RecentTransactions> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${list()[index].receiverId}",
+                                    "${list()[widget.list != "all" ? index - 1 : index].receiverId}",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w600),
                                   ),
                                   // Padding(
                                   //   padding: const EdgeInsets.only(top: 3.0),
                                   //   child: Text(
-                                  //     list()[index].date,
+                                  //     list()[widget.list != "all"?index-1:index].date,
                                   //     style: const TextStyle(
                                   //         fontSize: 10, color: Colors.grey),
                                   //   ),
@@ -87,12 +88,12 @@ class _RecentTransactionsState extends State<RecentTransactions> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${list()[index].amount} KWD",
+                                      "${list()[widget.list != "all" ? index - 1 : index].amount} KWD",
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600),
                                     ),
                                     Text(
-                                      "${list()[index].type}",
+                                      "${list()[widget.list != "all" ? index - 1 : index].type}",
                                       style: const TextStyle(
                                           fontSize: 10, color: Colors.grey),
                                     ),

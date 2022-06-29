@@ -13,13 +13,30 @@ class AuthServices {
         "username": user.username,
         "password": user.password,
         "image": await MultipartFile.fromFile(
-          user.image,
+          user.image!,
         ),
       });
       Response res = await Client.dio.post("/signup/", data: data);
-      return res.data["token"];
+      print(res.data["token"]);
+      token = res.data["token"];
     } on DioError catch (error) {
-      return token;
+      print(error);
+    }
+    return token;
+  }
+
+  Future<void> update(User user) async {
+    try {
+      FormData data = FormData.fromMap({
+        "username": user.username,
+        "password": user.password,
+        "image": await MultipartFile.fromFile(
+          user.image!,
+        ),
+      });
+      await Client.dio.put("/update/", data: data);
+    } on DioError catch (error) {
+      print(error);
     }
   }
 
