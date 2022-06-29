@@ -1,4 +1,7 @@
+import 'package:bank_project/providers/auth_providers.dart';
+import 'package:bank_project/widgets/control_balance.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CurrenBalance extends StatelessWidget {
   const CurrenBalance({Key? key}) : super(key: key);
@@ -25,32 +28,46 @@ class CurrenBalance extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Current Balance",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 197, 197, 197),
-                          fontSize: 12),
+            child: Consumer<AuthProviders>(builder: (context, auth, child) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Current Balance",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 197, 197, 197),
+                            fontSize: 12),
+                      ),
+                      Text(
+                        "KWD ${auth.user?.balance}",
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 20),
+                      )
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            String method = "deposit";
+                            return ContollBalance(
+                              method: method,
+                            );
+                          });
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.white,
                     ),
-                    const Text(
-                      "KWD 4,560,200",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontSize: 20),
-                    )
-                  ],
-                ),
-                Icon(
-                  Icons.add,
-                  color: Colors.white,
-                )
-              ],
-            ),
+                  )
+                ],
+              );
+            }),
           )),
     );
   }

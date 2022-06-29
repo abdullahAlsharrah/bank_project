@@ -1,21 +1,46 @@
+import 'package:bank_project/models/balance.dart';
 import 'package:bank_project/services/client.dart';
 import 'package:dio/dio.dart';
-import 'package:jwt_decode/jwt_decode.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bank_project/models/user.dart';
-import 'package:bank_project/services/auth_services.dart';
 
 class AuthServices {
   // final _dio = Dio();
 
   Future<String> signUp(User user) async {
-    Response res = await Client.dio.post("/signup/", data: user.toJson());
-    return res.data["token"];
+    String token = "";
+    try {
+      FormData data = FormData.fromMap({
+        "username": user.username,
+        "password": user.password,
+        "image": await MultipartFile.fromFile(
+          user.image,
+        ),
+      });
+      Response res = await Client.dio.post("/signup/", data: data);
+      return res.data["token"];
+    } on DioError catch (error) {
+      return token;
+    }
   }
 
   Future<String> signIn(User user) async {
     Response res = await Client.dio.post("/signin", data: user.toJson());
 
     return res.data["token"];
+  }
+
+  Future<void> addBalanceSer(amount) async {
+    Balance data = Balance(amount);
+    await Client.dio.put("/deposit", data: data.toJson());
+  }
+
+  Future<void> withdraw(amount) async {
+    Balance data = Balance(amount);
+    await Client.dio.put("/withdraw", data: data.toJson());
+  }
+
+  Future<void> send(amount, username) async {
+    Balance data = Balance(amount);
+    await Client.dio.post("/transfer/$username", data: data.toJson());
   }
 }

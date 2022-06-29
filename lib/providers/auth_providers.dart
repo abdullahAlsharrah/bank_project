@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bank_project/models/user.dart';
+import 'package:bank_project/providers/trans_providers.dart';
+import 'package:bank_project/services/client.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,13 +19,9 @@ class AuthProviders extends ChangeNotifier {
   }
 
   Future<void> signIn(User user) async {
-    try {
-      token = await AuthServices().signIn(user);
-      setToken(token);
-      notifyListeners();
-    } catch (e) {
-      print(e);
-    }
+    token = await AuthServices().signIn(user);
+    setToken(token);
+    notifyListeners();
   }
 
   void signOut() {
@@ -35,12 +34,48 @@ class AuthProviders extends ChangeNotifier {
     prefs.setString("token", token);
     var json = Jwt.parseJwt(token);
     user = User.fromJson2(json);
+    Client.dio.options.headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $token',
+    };
     notifyListeners();
   }
 
   void getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token") ?? "";
+
+    notifyListeners();
+  }
+
+  Future<void> addBalance(String balance) async {
+    int addedBalance = int.parse(balance);
+    await AuthServices().addBalanceSer(addedBalance);
+    user?.balance = ((user?.balance ?? 0) + addedBalance);
+    TransProviders().getTransactions();
+
+    notifyListeners();
+  }
+
+  Future<void> withdraw(String balance) async {
+    int widthdrawnBalance = int.parse(balance);
+    int? currentBalance = user?.balance ?? 0;
+    if (widthdrawnBalance <= currentBalance && currentBalance != 0) {
+      await AuthServices().withdraw(widthdrawnBalance);
+      user?.balance = ((currentBalance) - widthdrawnBalance);
+    }
+    TransProviders().getTransactions();
+    notifyListeners();
+  }
+
+  Future<void> send(String balance, String username) async {
+    int widthdrawnBalance = int.parse(balance);
+    int? currentBalance = user?.balance ?? 0;
+    if (widthdrawnBalance <= currentBalance && currentBalance != 0) {
+      await AuthServices().send(widthdrawnBalance, username);
+      user?.balance = ((currentBalance) - widthdrawnBalance);
+    }
+    TransProviders().getTransactions();
+
     notifyListeners();
   }
 
@@ -48,7 +83,6 @@ class AuthProviders extends ChangeNotifier {
     if (token.isNotEmpty && Jwt.getExpiryDate(token)!.isAfter(DateTime.now())) {
       var json = Jwt.parseJwt(token);
       user = User.fromJson2(json);
-      print(user?.username);
       return true;
     }
     logout();
@@ -58,7 +92,6 @@ class AuthProviders extends ChangeNotifier {
   void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("token");
-    print("Logout");
     token = "";
     notifyListeners();
   }
