@@ -7,8 +7,18 @@ class User {
   int? id;
   String username;
   String? password;
+  String image =
+      "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612";
+  int? balance;
 
-  User({this.id, required this.username, this.password});
+  User({
+    this.id,
+    required this.username,
+    this.password,
+    this.balance,
+    this.image =
+        "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612",
+  });
 
   // factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   factory User.fromJson2(Map<String, dynamic> json) => _$UserFromJson(json);

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bank_project/providers/auth_providers.dart';
 import 'package:bank_project/widgets/actions.dart';
 import 'package:bank_project/widgets/curren_balance.dart';
@@ -52,25 +54,29 @@ class _HomePageState extends State<HomePage> {
                             child: SizedBox(
                               width: 50,
                               child: InkWell(
-                                onTap: () => {_sKey.currentState?.openDrawer()},
-                                child: Image.network(
-                                    "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612"),
-                              ),
+                                  onTap: () =>
+                                      {_sKey.currentState?.openDrawer()},
+                                  child: Image.network(auth.user?.image ??
+                                      "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612")),
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                auth.user?.username ?? "sss",
-                                style: const TextStyle(fontSize: 13),
-                              ),
-                              const Text(
-                                "Welcome Back!",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  auth.user?.username ?? "sss",
+                                  style: const TextStyle(fontSize: 13),
+                                ),
+                                const Text(
+                                  "Welcome Back!",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -79,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   CurrenBalance(),
                   ActionButtons(),
-                  RecentTransactions()
+                  RecentTransactions(list: "recenet", filter: "all")
                 ],
               ),
             )),
