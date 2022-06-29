@@ -12,9 +12,15 @@ import '../services/auth_services.dart';
 class AuthProviders extends ChangeNotifier {
   User? user;
   late String token = "";
-  void signUp(User user) async {
+  Future<void> signUp(User user) async {
     token = await AuthServices().signUp(user);
+    await setToken(token);
+    notifyListeners();
+  }
 
+  Future<void> update(User user) async {
+    await AuthServices().update(user);
+    this.user = user;
     notifyListeners();
   }
 
@@ -29,7 +35,7 @@ class AuthProviders extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setToken(String token) async {
+  Future<void> setToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("token", token);
     var json = Jwt.parseJwt(token);

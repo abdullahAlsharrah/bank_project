@@ -53,11 +53,15 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(100),
                             child: SizedBox(
                               width: 50,
+                              height: 50,
                               child: InkWell(
                                   onTap: () =>
                                       {_sKey.currentState?.openDrawer()},
-                                  child: Image.network(auth.user?.image ??
-                                      "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612")),
+                                  child: Image.network(
+                                    auth.user?.image ??
+                                        "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612",
+                                    fit: BoxFit.fitHeight,
+                                  )),
                             ),
                           ),
                           Padding(
@@ -83,8 +87,8 @@ class _HomePageState extends State<HomePage> {
                       const Icon(Icons.notifications_none)
                     ],
                   ),
-                  CurrenBalance(),
-                  ActionButtons(),
+                  const CurrenBalance(),
+                  const ActionButtons(),
                   RecentTransactions(list: "recenet", filter: "all")
                 ],
               ),

@@ -15,7 +15,7 @@ class SignupPage extends StatefulWidget {
   State<SignupPage> createState() => _SignupPageState();
 }
 
-var _image;
+File? _image;
 
 class _SignupPageState extends State<SignupPage> {
   // @override
@@ -92,36 +92,40 @@ class _SignupPageState extends State<SignupPage> {
 
   // Widget _buildForgotPasswordBtn() {
   Widget _buildSignupBtn() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {
-          context
-              .read<AuthProviders>()
-              .signUp(User(username: username.text, password: password.text));
-          Navigator.popUntil(context, (route) {
-            return route.isFirst;
-          });
-        },
-        // padding: EdgeInsets.all(15.0),
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(30.0),
-        // ),
-        style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(), primary: Colors.white),
-        child: const Text(
-          'Sign up',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+    return Consumer<AuthProviders>(builder: (context, auth, child) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 25.0),
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () async {
+            await context.read<AuthProviders>().signUp(User(
+                username: username.text,
+                password: password.text,
+                image: _image?.path));
+
+            if (auth.isAuth) {
+              context.go("/");
+            }
+          },
+          // padding: EdgeInsets.all(15.0),
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(30.0),
+          // ),
+          style: ElevatedButton.styleFrom(
+              shape: const StadiumBorder(), primary: Colors.white),
+          child: const Text(
+            'Sign up',
+            style: TextStyle(
+              color: Color(0xFF527DAA),
+              letterSpacing: 1.5,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'OpenSans',
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   // Widget _buildSignInWithText() {
@@ -176,9 +180,11 @@ class _SignupPageState extends State<SignupPage> {
                           final pickedFile = await _picker.pickImage(
                             source: ImageSource.gallery,
                           );
+                          // if (pickedFile != null) {
                           setState(() {
                             _image = File(pickedFile!.path);
                           });
+                          // }
                         },
                         child: Container(
                           width: 100,
@@ -187,7 +193,7 @@ class _SignupPageState extends State<SignupPage> {
                           decoration: BoxDecoration(color: Colors.blue[200]),
                           child: _image != null
                               ? Image.file(
-                                  _image,
+                                  _image!,
                                   width: 200.0,
                                   height: 200.0,
                                   fit: BoxFit.fitHeight,
