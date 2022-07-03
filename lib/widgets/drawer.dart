@@ -18,8 +18,11 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           const Divider(),
-          const ListTile(
-            title: Text("Transactions"),
+          ListTile(
+            title: const Text("Transactions"),
+            onTap: () {
+              context.push("/transactions");
+            },
           ),
           const Divider(),
           const ListTile(

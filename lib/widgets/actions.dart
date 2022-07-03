@@ -7,7 +7,7 @@ class ActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () {
@@ -19,36 +19,25 @@ class ActionButtons extends StatelessWidget {
                   );
                 });
           },
-          child: SizedBox(
-            width: 100,
-            height: 110,
-            child: Card(
-              color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: const Color.fromARGB(61, 255, 255, 255),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Transform.rotate(
-                          angle: -0.5,
-                          child: const Icon(
-                            Icons.send,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 3.0),
+                  child: Transform.rotate(
+                    angle: -0.5,
+                    child: const Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 15,
                     ),
-                    const Text("Send", style: TextStyle(color: Colors.white))
-                  ],
+                  ),
                 ),
-              ),
+                const Text("Send",
+                    style: TextStyle(color: Colors.white, fontSize: 10))
+              ],
             ),
           ),
         ),
@@ -63,36 +52,24 @@ class ActionButtons extends StatelessWidget {
                   );
                 });
           },
-          child: SizedBox(
-            width: 100,
-            height: 110,
-            child: Card(
-              color: Colors.green,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: const Color.fromARGB(61, 255, 255, 255),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Transform.rotate(
-                          angle: 1.55,
-                          child: const Icon(
-                            Icons.login,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 3.0),
+                  child: Transform.rotate(
+                    angle: 1.55,
+                    child: const Icon(
+                      Icons.login,
+                      color: Colors.white,
+                      size: 15,
                     ),
-                    const Text("Deposit", style: TextStyle(color: Colors.white))
-                  ],
+                  ),
                 ),
-              ),
+                const Text("Deposit",
+                    style: TextStyle(color: Colors.white, fontSize: 10))
+              ],
             ),
           ),
         ),
@@ -107,37 +84,22 @@ class ActionButtons extends StatelessWidget {
                   );
                 });
           },
-          child: SizedBox(
-            width: 100,
-            height: 110,
-            child: Card(
-              color: Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: const Color.fromARGB(61, 255, 255, 255),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Transform.rotate(
-                          angle: -1.55,
-                          child: const Icon(
-                            Icons.logout,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Text("Withdraw",
-                        style: TextStyle(color: Colors.white))
-                  ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 3.0),
+                  child: Transform.rotate(
+                    angle: -1.55,
+                    child:
+                        const Icon(Icons.logout, color: Colors.white, size: 15),
+                  ),
                 ),
-              ),
+                const Text("Withdraw",
+                    style: TextStyle(color: Colors.white, fontSize: 10))
+              ],
             ),
           ),
         ),

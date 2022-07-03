@@ -43,16 +43,13 @@ class _RecentTransactionsState extends State<RecentTransactions> {
                                 "Recent Transaction",
                                 style: TextStyle(fontWeight: FontWeight.w900),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: TextButton(
-                                  onPressed: () {
-                                    context.push("/transactions");
-                                  },
-                                  child: const Text(
-                                    "See all",
-                                    style: TextStyle(fontSize: 11),
-                                  ),
+                              TextButton(
+                                onPressed: () {
+                                  context.push("/transactions");
+                                },
+                                child: const Text(
+                                  "See all",
+                                  style: TextStyle(fontSize: 11),
                                 ),
                               )
                             ],
@@ -83,7 +80,7 @@ class _RecentTransactionsState extends State<RecentTransactions> {
                                 ],
                               ),
                               SizedBox(
-                                width: 65,
+                                // width: 65,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -93,7 +90,10 @@ class _RecentTransactionsState extends State<RecentTransactions> {
                                           fontWeight: FontWeight.w600),
                                     ),
                                     Text(
-                                      "${list()[widget.list != "all" ? index - 1 : index].type}",
+                                      list()[widget.list != "all"
+                                              ? index - 1
+                                              : index]
+                                          .type,
                                       style: const TextStyle(
                                           fontSize: 10, color: Colors.grey),
                                     ),

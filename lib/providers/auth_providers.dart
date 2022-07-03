@@ -68,9 +68,9 @@ class AuthProviders extends ChangeNotifier {
     if (widthdrawnBalance <= currentBalance && currentBalance != 0) {
       await AuthServices().withdraw(widthdrawnBalance);
       user?.balance = ((currentBalance) - widthdrawnBalance);
+      TransProviders().getTransactions();
+      notifyListeners();
     }
-    TransProviders().getTransactions();
-    notifyListeners();
   }
 
   Future<void> send(String balance, String username) async {

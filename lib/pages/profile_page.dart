@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: ElevatedButton(
+      child: TextButton(
         onPressed: () {
           context.read<AuthProviders>().update(User(
               username: username.text,
@@ -119,12 +119,12 @@ class _ProfilePageState extends State<ProfilePage> {
         // shape: RoundedRectangleBorder(
         //   borderRadius: BorderRadius.circular(30.0),
         // ),
-        style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(), primary: Colors.white),
+        // style: ElevatedButton.styleFrom(
+        //     shape: const StadiumBorder(), primary: Colors.white),
         child: const Text(
-          'Update',
+          'Save',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.black,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -146,23 +146,6 @@ class _ProfilePageState extends State<ProfilePage> {
             onTap: () => FocusScope.of(context).unfocus(),
             child: Stack(
               children: [
-                Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF73AEF5),
-                        Color(0xFF61A4F1),
-                        Color(0xFF478DE0),
-                        Color(0xFF398AE5),
-                      ],
-                      stops: [0.1, 0.4, 0.7, 0.9],
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: double.infinity,
                   child: SingleChildScrollView(
@@ -173,61 +156,75 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Edit Your Profile',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'OpenSans',
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            final pickedFile = await _picker.pickImage(
-                              source: ImageSource.gallery,
-                            );
-                            setState(() {
-                              _image = File(pickedFile!.path);
-                            });
-                          },
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            margin: const EdgeInsets.only(top: 20),
-                            decoration: BoxDecoration(color: Colors.blue[200]),
-                            child: auth.user?.image != null && _image == null
-                                ? Image.network(
-                                    auth.user!.image!,
-                                    width: 200.0,
-                                    height: 200.0,
-                                    fit: BoxFit.fitHeight,
-                                  )
-                                : _image != null
-                                    ? Image.file(
-                                        _image!,
-                                        width: 200.0,
-                                        height: 200.0,
-                                        fit: BoxFit.fitHeight,
-                                      )
-                                    : Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.blue[200]),
-                                        width: 200,
-                                        height: 200,
-                                        child: Icon(
-                                          Icons.camera_alt,
-                                          color: Colors.grey[800],
-                                        ),
-                                      ),
+                        IconButton(
+                            onPressed: () {
+                              context.go("/home");
+                            },
+                            icon: const Icon(Icons.arrow_back)),
+                        Center(
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Edit Your Profile',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  final pickedFile = await _picker.pickImage(
+                                    source: ImageSource.gallery,
+                                  );
+                                  setState(() {
+                                    _image = File(pickedFile!.path);
+                                  });
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  margin: const EdgeInsets.only(top: 20),
+                                  decoration:
+                                      BoxDecoration(color: Colors.blue[200]),
+                                  child:
+                                      auth.user?.image != null && _image == null
+                                          ? Image.network(
+                                              auth.user!.image!,
+                                              width: 200.0,
+                                              height: 200.0,
+                                              fit: BoxFit.fitHeight,
+                                            )
+                                          : _image != null
+                                              ? Image.file(
+                                                  _image!,
+                                                  width: 200.0,
+                                                  height: 200.0,
+                                                  fit: BoxFit.fitHeight,
+                                                )
+                                              : Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.blue[200]),
+                                                  width: 200,
+                                                  height: 200,
+                                                  child: Icon(
+                                                    Icons.camera_alt,
+                                                    color: Colors.grey[800],
+                                                  ),
+                                                ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text("Please upload a profile picture",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontFamily: 'OpenSans',
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold)),

@@ -57,9 +57,41 @@ class ContollBalance extends StatelessWidget {
                           if (method == "deposit") {
                             await auth.addBalance(balance.text);
                           } else if (method == "withdraw") {
-                            await auth.withdraw(balance.text);
+                            if ((auth.user?.balance ?? 0) <
+                                int.parse(balance.text)) {
+                              final scaffold = ScaffoldMessenger.of(context);
+                              scaffold.showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                      'Sorry You don\'t have Suffiecient Balance'),
+                                  backgroundColor: Colors.red,
+                                  action: SnackBarAction(
+                                      label: 'Hide',
+                                      textColor: Colors.black,
+                                      onPressed: scaffold.hideCurrentSnackBar),
+                                ),
+                              );
+                            } else {
+                              await auth.withdraw(balance.text);
+                            }
                           } else {
-                            await auth.send(balance.text, username.text);
+                            if ((auth.user?.balance ?? 0) <
+                                int.parse(balance.text)) {
+                              final scaffold = ScaffoldMessenger.of(context);
+                              scaffold.showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                      'Sorry You don\'t have Suffiecient Balance'),
+                                  backgroundColor: Colors.red,
+                                  action: SnackBarAction(
+                                      label: 'Hide',
+                                      textColor: Colors.black,
+                                      onPressed: scaffold.hideCurrentSnackBar),
+                                ),
+                              );
+                            } else {
+                              await auth.send(balance.text, username.text);
+                            }
                           }
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);

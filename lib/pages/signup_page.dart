@@ -104,7 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                 image: _image?.path));
 
             if (auth.isAuth) {
-              context.go("/");
+              context.go("/home");
             }
           },
           // padding: EdgeInsets.all(15.0),

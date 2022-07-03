@@ -42,53 +42,35 @@ class _HomePageState extends State<HomePage> {
                 child: SingleChildScrollView(
               physics: const ScrollPhysics(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: InkWell(
-                                  onTap: () =>
-                                      {_sKey.currentState?.openDrawer()},
-                                  child: Image.network(
-                                    auth.user?.image ??
-                                        "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612",
-                                    fit: BoxFit.fitHeight,
-                                  )),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  auth.user?.username ?? "sss",
-                                  style: const TextStyle(fontSize: 13),
-                                ),
-                                const Text(
-                                  "Welcome Back!",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        icon: const Icon(Icons.menu),
+                        onPressed: () => {_sKey.currentState?.openDrawer()},
                       ),
-                      const Icon(Icons.notifications_none)
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: InkWell(
+                              onTap: () => {context.push("/profile")},
+                              child: Image.network(
+                                auth.user?.image ??
+                                    "https://media.istockphoto.com/vectors/user-avatar-profile-icon-black-vector-illustration-vector-id1209654046?s=612x612",
+                                fit: BoxFit.fitHeight,
+                              )),
+                        ),
+                      ),
                     ],
                   ),
                   const CurrenBalance(),
-                  const ActionButtons(),
+                  // const ActionButtons(),
                   RecentTransactions(list: "recenet", filter: "all")
                 ],
               ),

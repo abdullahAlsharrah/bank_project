@@ -15,32 +15,59 @@ class _TransactionsPageState extends State<TransactionsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Transactions"),
+        backgroundColor: Colors.black,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(40.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    filter = "withdraw";
-                  });
-                },
-                child: const Text("Withdraw")),
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    filter = "transfer";
-                  });
-                },
-                child: const Text("Rransfer")),
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    filter = "deposit";
-                  });
-                },
-                child: const Text("Deposit")),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: filter == "all" ? Colors.black : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        filter = "all";
+                      });
+                    },
+                    child: const Text("All")),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: filter == "deposit" ? Colors.black : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        filter = "deposit";
+                      });
+                    },
+                    child: const Text("Deposit")),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          filter == "withdraw" ? Colors.black : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        filter = "withdraw";
+                      });
+                    },
+                    child: const Text("Withdraw")),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          filter == "transfer" ? Colors.black : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        filter = "transfer";
+                      });
+                    },
+                    child: const Text("Transfer")),
+              ],
+            ),
             RecentTransactions(list: "all", filter: filter),
           ],
         ),
